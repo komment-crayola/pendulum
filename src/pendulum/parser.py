@@ -24,6 +24,23 @@ except ImportError:
 
 
 def parse(text: str, **options: t.Any) -> Date | Time | DateTime | Duration:
+    """
+    Converts a given text into a date or time object based on specific parsing
+    rules and options provided through keyword arguments. It sets an option for
+    now, if not already set, before calling another internal _parse function to
+    perform the actual parsing.
+
+    Args:
+        text (str*): Required for the function to execute. It represents the input
+            string that needs to be parsed into a date or time-related object.
+        **options (t.Any*): Dictionary of keyword arguments
+
+    Returns:
+        Date | Time | DateTime | Duration*: An object representing a date and/or
+        time, possibly with duration information. The exact type depends on the
+        input text and options provided.
+
+    """
     # Use the mock now value if it exists
     options["now"] = options.get("now")
 
@@ -32,9 +49,11 @@ def parse(text: str, **options: t.Any) -> Date | Time | DateTime | Duration:
 
 def _parse(text: str, **options: t.Any) -> Date | DateTime | Time | Duration | Interval:
     """
-    Parses a string with the given options.
+    Handles date and time parsing from a given text string, converting it into
+    various formats such as dates, times, durations, or intervals using the
+    `pendulum` library. It also accommodates special cases like "now" and supports
+    timezone handling.
 
-    :param text: The string to parse.
     """
     # Handling special cases
     if text == "now":
